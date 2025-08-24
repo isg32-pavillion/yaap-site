@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import yaaplogo from "@/assets/yaaplogo.svg";
 
 const footerLinks = {
   community: [
@@ -23,9 +24,7 @@ export function Footer() {
           {/* Left Column */}
           <div className="space-y-6">
             <div>
-              <h3 className="text-2xl font-bold bg-gradient-hero bg-clip-text text-transparent mb-2">
-                YAAP
-              </h3>
+              <img src={yaaplogo} className="h-10" alt="" />
             </div>
             
             <div className="space-y-2 text-sm text-muted-foreground">
