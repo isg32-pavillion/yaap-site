@@ -2,6 +2,7 @@ import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Download, Menu, X } from "lucide-react";
 import { useState } from "react";
+import yaaplogo from "@/assets/yaaplogo.svg";
 
 export function Navigation() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -24,12 +25,9 @@ export function Navigation() {
         <div className="flex items-center justify-between h-16">
           {/* Logo */}
           <Link to="/" className="flex items-center space-x-2">
-            <div className="w-8 h-8 rounded-lg bg-gradient-primary flex items-center justify-center">
-              <span className="text-primary-foreground font-bold text-sm">Y</span>
+            <div className="w-20 h-8 rounded-lg bg-gradient-primary flex items-center justify-center">
+            <img src={yaaplogo} alt="" className="px-2 " />
             </div>
-            <span className="text-xl font-bold bg-gradient-hero bg-clip-text text-transparent">
-              YAAP
-            </span>
           </Link>
 
           {/* Desktop Navigation */}

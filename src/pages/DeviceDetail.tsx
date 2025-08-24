@@ -154,7 +154,7 @@ export default function DeviceDetail() {
                     <img
                       src={device.image}
                       alt={device.name}
-                      className="w-full h-full object-cover"
+                      className="h-full px-3 py-3 object-cover"
                     />
                   </div>
                 )}
@@ -194,24 +194,23 @@ export default function DeviceDetail() {
                 </p>
               </CardContent>
             </Card>
+            {/* Device Information */}
+            {markdown && (
+              <Card className="gradient-surface border-border mt-4">
+                <CardHeader>
+                  <CardTitle className="text-xl">Device Information</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <div className="prose prose-invert max-w-none">
+                    <pre className="whitespace-pre-wrap text-sm text-muted-foreground leading-relaxed">
+                      {markdown}
+                    </pre>
+                  </div>
+                </CardContent>
+              </Card>
+            )}
           </div>
         </div>
-
-        {/* Device Information */}
-        {markdown && (
-          <Card className="gradient-surface border-border">
-            <CardHeader>
-              <CardTitle className="text-xl">Device Information</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="prose prose-invert max-w-none">
-                <pre className="whitespace-pre-wrap text-sm text-muted-foreground leading-relaxed">
-                  {markdown}
-                </pre>
-              </div>
-            </CardContent>
-          </Card>
-        )}
       </div>
     </div>
   );

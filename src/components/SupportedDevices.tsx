@@ -204,11 +204,11 @@ export function SupportedDevices() {
                     
                     <CardContent className="space-y-4">
                       {device.image && (
-                        <div className="aspect-video rounded-lg overflow-hidden bg-muted">
+                        <div className="h-40 rounded-lg overflow-hidden bg-muted">
                           <img
                             src={device.image}
                             alt={device.name}
-                            className="w-full h-full object-cover"
+                            className="h-full px-2 py-2 object-cover"
                           />
                         </div>
                       )}

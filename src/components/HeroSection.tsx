@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import heroPhone1 from "@/assets/hero-phone-1.jpg";
 import heroTablet1 from "@/assets/hero-tablet-1.jpg";
 import heroPhone2 from "@/assets/hero-phone-2.jpg";
+import yaaplogo from "@/assets/yaaplogo.svg";
 
 const slideImages = [
   {
@@ -46,11 +47,7 @@ export function HeroSection() {
           {/* Left Column - Text Content */}
           <div className="space-y-8">
             <div className="space-y-6">
-              <h1 className="text-6xl lg:text-8xl font-bold">
-                <span className="bg-gradient-hero bg-clip-text text-transparent">
-                  YAAP
-                </span>
-              </h1>
+              <img src={yaaplogo} alt="" />
               <p className="text-xl lg:text-2xl text-muted-foreground leading-relaxed">
                 An Android-based open source operating system for various devices.
               </p>
