@@ -6,6 +6,10 @@ import { Download, Smartphone, User, CheckCircle, Clock, AlertCircle } from "luc
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
+// IMPORTANT: Replace 'YOUR_GITHUB_TOKEN' with your actual Personal Access Token.
+// For production apps, you should use environment variables for security.
+const GITHUB_TOKEN = "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";
+
 interface Device {
   name: string;
   maintainer: string;
@@ -37,48 +41,73 @@ export function SupportedDevices() {
   const [error, setError] = useState<string | null>(null);
   const navigate = useNavigate();
 
-  useEffect(() => {
-    fetchDevices();
-  }, []);
+  // Helper function to fetch data with exponential backoff and authentication
+  const fetchWithRetry = async (url: string, retries = 5, delay = 1000) => {
+    try {
+      // Add Authorization header with the personal access token
+      const headers = {
+        Authorization: `token ${GITHUB_TOKEN}`,
+      };
+      
+      const response = await axios.get(url, { headers });
+      return response;
+    } catch (err: any) {
+      // Check for rate limit error (status 403 or 429) and if retries remain
+      if ((err.response?.status === 403 || err.response?.status === 429) && retries > 0) {
+        console.warn(`Rate limit exceeded. Retrying in ${delay / 1000}s...`);
+        await new Promise(res => setTimeout(res, delay));
+        return fetchWithRetry(url, retries - 1, delay * 2); // Double the delay
+      }
+      throw err; // Re-throw other errors or if retries are exhausted
+    }
+  };
 
   const fetchDevices = async () => {
     try {
       setLoading(true);
-      // Fetch the device list from GitHub API
-      const response = await axios.get(
+      setError(null);
+      
+      // Fetch the device list from GitHub API with retry logic
+      const response = await fetchWithRetry(
         "https://api.github.com/repos/yaap/device-info/contents/"
       );
 
       const devices: Device[] = [];
       
-      // Process each directory (device)
-      for (const item of response.data) {
-        if (item.type === "dir") {
+      // Use Promise.all to fetch device JSON files concurrently
+      const deviceFetchPromises = response.data
+        .filter((item: any) => item.type === "dir")
+        .map(async (item: any) => {
           try {
-            // Fetch the device JSON file
-            const deviceResponse = await axios.get(
+            const deviceResponse = await fetchWithRetry(
               `https://api.github.com/repos/yaap/device-info/contents/${item.name}/${item.name}.json`
             );
             
             const deviceData = JSON.parse(atob(deviceResponse.data.content));
             
-            devices.push({
+            return {
               name: deviceData.name || item.name,
               maintainer: deviceData.maintainer || "Unknown",
               status: deviceData.status || "unofficial",
               image: deviceData.image,
               filename: item.name,
-            });
+            };
           } catch (err) {
             console.error(`Error fetching device data for ${item.name}:`, err);
+            return null; // Return null on error to filter it out later
           }
-        }
-      }
+        });
+
+      // Wait for all concurrent fetches to complete
+      const fetchedDevices = await Promise.all(deviceFetchPromises);
+      
+      // Filter out any devices that failed to fetch
+      const validDevices = fetchedDevices.filter(d => d !== null) as Device[];
 
       // Group devices by OEM (first word of device name)
       const groups: { [key: string]: Device[] } = {};
       
-      devices.forEach((device) => {
+      validDevices.forEach((device) => {
         const oem = device.name.split(" ")[0] || "Other";
         if (!groups[oem]) {
           groups[oem] = [];
@@ -92,12 +121,16 @@ export function SupportedDevices() {
 
       setDeviceGroups(sortedGroups);
     } catch (err) {
-      setError("Failed to fetch device information");
-      console.error("Error fetching devices:", err);
+      setError("Failed to fetch device information after multiple retries. Please try again later.");
+      console.error("Final error fetching devices:", err);
     } finally {
       setLoading(false);
     }
   };
+
+  useEffect(() => {
+    fetchDevices();
+  }, []);
 
   const handleDownload = (device: Device) => {
     navigate(`/device/${device.filename}`);
