@@ -1,10 +1,16 @@
 import { useState, useEffect } from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import heroPhone1 from "@/assets/hero-phone-1.jpg";
-import heroTablet1 from "@/assets/hero-tablet-1.jpg";
-import heroPhone2 from "@/assets/hero-phone-2.jpg";
 import yaaplogo from "@/assets/yaaplogo.svg";
+
+import heroPhone1 from "@/assets/ss/about.webp";
+import heroTablet1 from "@/assets/ss/33.webp";
+import heroPhone2 from "@/assets/ss/22.webp";
+
+import heroPhon3 from "@/assets/ss/17.webp";
+import heroTablet3 from "@/assets/ss/6.webp";
+import heroPhone3 from "@/assets/ss/8.webp";
+
 
 const slideImages = [
   {
@@ -17,6 +23,18 @@ const slideImages = [
   },
   {
     src: heroPhone2,
+    alt: "YAAP OS home screen"
+  },
+  {
+    src: heroPhon3,
+    alt: "YAAP Android OS on smartphone"
+  },
+  {
+    src: heroTablet3,
+    alt: "YAAP Android OS on tablet"
+  },
+  {
+    src: heroPhone3,
     alt: "YAAP OS home screen"
   }
 ];
@@ -71,18 +89,18 @@ export function HeroSection() {
           </div>
 
           {/* Right Column - Slideshow */}
-          <div className="relative">
-            <div className="relative aspect-[4/3] rounded-2xl overflow-hidden shadow-card">
+          <div className="relative flex justify-center">
+            <div className="relative aspect-[9/20] w-64 rounded-2xl overflow-hidden shadow-card">
               <div 
                 className="flex transition-transform duration-500 ease-in-out h-full"
                 style={{ transform: `translateX(-${currentSlide * 100}%)` }}
               >
                 {slideImages.map((image, index) => (
-                  <div key={index} className="w-full h-full flex-shrink-0">
+                  <div key={index} className="h-full flex-shrink-0">
                     <img
                       src={image.src}
                       alt={image.alt}
-                      className="w-full h-full object-cover"
+                      className="h-full object-cover"
                     />
                   </div>
                 ))}
