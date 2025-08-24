@@ -55,7 +55,7 @@ export function Navigation() {
             ))}
             <Button 
               variant="accent" 
-              className="hover:opacity-90 transition-smooth"
+              className="hover:opacity-90 transition-smooth text-white"
               onClick={scrollToDevices}
             >
               <Download className="w-4 h-4 mr-2" />
