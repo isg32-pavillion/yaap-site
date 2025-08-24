@@ -6,7 +6,6 @@ const footerLinks = {
     { name: "Update channel", href: "https://t.me/yaap_updates" }
   ],
   links: [
-    { name: "Blog", href: "/blog" },
     { name: "Twitter", href: "https://twitter.com/YAAP_ROM" }
   ],
   source: [
@@ -27,12 +26,10 @@ export function Footer() {
               <h3 className="text-2xl font-bold bg-gradient-hero bg-clip-text text-transparent mb-2">
                 YAAP
               </h3>
-              <p className="text-muted-foreground">
-                An Android-based open source operating system for various devices.
-              </p>
             </div>
             
             <div className="space-y-2 text-sm text-muted-foreground">
+              <p>YAAP is not affiliated with Google or Android.</p>
               <p>Copyright © 2025 YAAP</p>
               <p>
                 Design & code by{" "}

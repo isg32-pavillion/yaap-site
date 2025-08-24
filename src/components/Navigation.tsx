@@ -9,8 +9,15 @@ export function Navigation() {
   const navLinks = [
     { name: "Docs", href: "/docs" },
     { name: "Blog", href: "/blog" },
-    { name: "Contribute", href: "/contribute" }
+    { name: "Contribute", href: "https://github.com/YAAP" }
   ];
+
+  const scrollToDevices = () => {
+    const devicesSection = document.getElementById('supported-devices');
+    if (devicesSection) {
+      devicesSection.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
 
   return (
     <nav className="fixed top-0 left-0 right-0 z-50 bg-background/80 backdrop-blur-md border-b border-border">
@@ -29,15 +36,31 @@ export function Navigation() {
           {/* Desktop Navigation */}
           <div className="hidden md:flex items-center space-x-8">
             {navLinks.map((link) => (
-              <Link
-                key={link.name}
-                to={link.href}
-                className="text-muted-foreground hover:text-foreground transition-smooth"
-              >
-                {link.name}
-              </Link>
+              link.href.startsWith('http') ? (
+                <a
+                  key={link.name}
+                  href={link.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-muted-foreground hover:text-foreground transition-smooth"
+                >
+                  {link.name}
+                </a>
+              ) : (
+                <Link
+                  key={link.name}
+                  to={link.href}
+                  className="text-muted-foreground hover:text-foreground transition-smooth"
+                >
+                  {link.name}
+                </Link>
+              )
             ))}
-            <Button variant="accent" className="hover:opacity-90 transition-smooth">
+            <Button 
+              variant="accent" 
+              className="hover:opacity-90 transition-smooth"
+              onClick={scrollToDevices}
+            >
               <Download className="w-4 h-4 mr-2" />
               Download
             </Button>
@@ -62,16 +85,36 @@ export function Navigation() {
           <div className="md:hidden py-4 border-t border-border">
             <div className="flex flex-col space-y-4">
               {navLinks.map((link) => (
-                <Link
-                  key={link.name}
-                  to={link.href}
-                  className="text-muted-foreground hover:text-foreground transition-smooth py-2"
-                  onClick={() => setIsMenuOpen(false)}
-                >
-                  {link.name}
-                </Link>
+                link.href.startsWith('http') ? (
+                  <a
+                    key={link.name}
+                    href={link.href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-muted-foreground hover:text-foreground transition-smooth py-2"
+                    onClick={() => setIsMenuOpen(false)}
+                  >
+                    {link.name}
+                  </a>
+                ) : (
+                  <Link
+                    key={link.name}
+                    to={link.href}
+                    className="text-muted-foreground hover:text-foreground transition-smooth py-2"
+                    onClick={() => setIsMenuOpen(false)}
+                  >
+                    {link.name}
+                  </Link>
+                )
               ))}
-              <Button variant="accent" className="hover:opacity-90 transition-smooth w-full">
+              <Button 
+                variant="accent" 
+                className="hover:opacity-90 transition-smooth w-full"
+                onClick={() => {
+                  setIsMenuOpen(false);
+                  scrollToDevices();
+                }}
+              >
                 <Download className="w-4 h-4 mr-2" />
                 Download
               </Button>
