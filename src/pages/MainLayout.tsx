@@ -1,7 +1,6 @@
 import { Navigation } from "@/components/Navigation";
 import { HeroSection } from "@/components/HeroSection";
 import { SupportedDevices } from "@/components/SupportedDevices";
-import { LatestNews } from "@/components/LatestNews";
 import { Footer } from "@/components/Footer";
 
 export default function MainLayout() {
@@ -11,7 +10,6 @@ export default function MainLayout() {
       <main>
         <HeroSection />
         <SupportedDevices />
-        <LatestNews />
       </main>
       <Footer />
     </div>

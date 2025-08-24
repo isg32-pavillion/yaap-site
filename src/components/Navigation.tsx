@@ -8,7 +8,6 @@ export function Navigation() {
 
   const navLinks = [
     { name: "Docs", href: "/docs" },
-    { name: "Blog", href: "/blog" },
     { name: "Contribute", href: "https://github.com/YAAP" }
   ];
 
